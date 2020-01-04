@@ -83,10 +83,11 @@ exports.postsByUser = (req,res) =>{
 exports.isPoster = (req,res,next) =>{
     let isPoster = 
     req.post && req.auth && req.post.postedBy._id == req.auth._id;;
-//   console.log("req.post: ",req.post);
-// console.log("req.auth: ", req.auth);
-// console.log("req.post.postedBy._id: ",req.post.postedBy._id);
-// console.log("req.auth.id: ",req.auth.id);
+
+console.log("req.post: ",req.post);
+console.log("req.auth: ", req.auth);
+console.log("req.post.postedBy._id: ",req.post.postedBy._id);
+console.log("req.auth.id: ",req.auth.id);
 
 
     if(!isPoster){
@@ -98,18 +99,20 @@ exports.isPoster = (req,res,next) =>{
 };
 
 
-exports.updatePost =  (req,res,next) =>{
+
+exports.updatePost = (req, res, next) => {
     let post = req.post;
     post = _.extend(post, req.body);
     post.updated = Date.now();
     post.save(err => {
-        if(err){
+        if (err) {
             return res.status(400).json({
                 error: err
             });
         }
         res.json(post);
     });
+   
 };
 
 
