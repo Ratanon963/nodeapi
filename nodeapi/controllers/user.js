@@ -16,7 +16,6 @@ exports.userById = (req,res,next,id) => {
 };
 
 
-
 exports.hasAuthorization = (req,res,next) => {
     const authorized = req.profile && req.auth && req.profile._id === req.auth._id
     if(!authorized){
@@ -26,9 +25,6 @@ exports.hasAuthorization = (req,res,next) => {
         });
     }
 };
-
-
-
 
 
 exports.allUsers = (req, res) => {
