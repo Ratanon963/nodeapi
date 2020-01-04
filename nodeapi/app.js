@@ -5,6 +5,8 @@ const morgan = require("morgan");  // NPM
 const bodyParser = require("body-parser");
 const expressValidator = require("express-validator");//NPM
 var cookieParser = require('cookie-parser'); //NPM
+const fs = require("fs");
+const cors = require("cors");
 
 
 const dotenv = require("dotenv"); //NPM  DB 
@@ -28,15 +30,30 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 
 
+app.get('/',(req,res) => {
+    fs.readFile('docs/apiDocs.json',(err,data) =>{
+        if(err){
+            res.status(400).json({
+                error: err
+            });
+
+        }
+        const docs = JSON.parse(data);
+        res.json(docs);
+    });
+});
+
 
 //middleware
 app.use(morgan("dev")); 
 app.use(bodyParser.json());
 app.use(expressValidator()); 
 app.use(cookieParser());
+app.use(cors());
 app.use("/",postRoutes);
 app.use("/",authRoutes);
 app.use("/",userRoutes);
+
 
 
 

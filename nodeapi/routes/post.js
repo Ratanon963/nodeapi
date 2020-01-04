@@ -10,11 +10,11 @@ const { getPosts,
 const {createPostValidator} = require("../validator/index")
 const { requireSignin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
+
+
 const router = express.Router();
 
-
-router.get("/",getPosts);
-
+router.get("/posts",getPosts);
 router.post("/post/new/:userId",
 requireSignin,
 createPost,
