@@ -154,16 +154,48 @@
 
 
 
+// function Holiday (destination,days){ 
+//     this.destination = destination;
+//     this.days = days;
+// }
+
+// Holiday.prototype.info = function(){
+//     console.log(this.destination + " | " + this.days + 'days');
+// }
+
+// var nepal = new Holiday("Nepal",30)
+// console.log(nepal.info());
 
 
-function Holiday (destination,days){
-    this.destination = destination;
-    this.days = days;
+////*** Constructor class */
+//Supper class
+class Holiday{
+    constructor(destination, days){
+        this.destination = destination;
+        this.days = days;
+    }
+
+    info(){
+        console.log(`${this.destination} will take ${this.days} days.`);
+    }
+}
+const trip = new Holiday('Kathmadu,Nepal', 30);
+console.log(trip.info());
+
+
+////*** Sub class */
+
+class Expedition extends Holiday{
+    constructor(destination,days,gear){
+        super(destination,days);
+        this.gear = gear;
+    }
+    info(){
+        super.info();
+        console.log(`Bring your ${this.gear.join(" and your")}`);
+    }
 }
 
-Holiday.prototype.info = function(){
-    console.log(this.destination + " | " + this.days + 'days');
-}
+const tripWithGear = new Expedition("Everest",49,["Sunglasses","Flages","Camera"]);
+tripWithGear.info();
 
-var nepal = new Holiday("Nepal",30)
-console.log(nepal.info());
