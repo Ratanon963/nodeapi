@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import {signup} from '../auth/index'
+import { Redirect } from 'react-router-dom';
+import {sigin,authetication} from "../auth/index"
 
-class Signup extends Component {
+class Signin extends Component {
     constructor() {
         super()
         this.state = {
-            name: "",
+
             email: "",
             password: "",
             error: "",
-            open: false
+            redirectToReferer: false,
+            loading: false
+
 
         }
     }
@@ -20,42 +23,37 @@ class Signup extends Component {
         this.setState({ [name]: event.target.value });
     };
 
+
     clickSubmit = event => {
         event.preventDefault();
-        const { name, email, password } = this.state;
-        const user = {
-            name,
+        this.setState({loading:true})
+
+        const { email, password } = this.state;
+        const user = { 
             email,
             password
         };
-        //console.log(user);
-        signup(user)
+        console.log(user);
+        sigin(user)
             .then(data => {
-                if (data.error) this.setState({ error: data.error })
-                else this.setState({
-                    error: "",
-                    name: "",
-                    email: "",
-                    password: "",
-                    open: true
-                });
+                if (data.error) {
+                    this.setState({ error: data.error, loading: false });
+                } else {
+                    //authentication 
+                    authetication(data, () =>{
+                        this.setState({redirectToReferer: true})
+                    })
+                    //redirect
+
+                };
             });
     };
 
-    
 
-    signupForm = (name, email, password) => {
+
+    signinForm = (email, password) => {
         return (
             <form>
-                <div className="form-group">
-                    <label className="text-muted"> Name </label>
-                    <input
-                        onChange={this.handdleChange("name")}
-                        type="text"
-                        className="form-control"
-                        value={name} />
-                </div>
-
                 <div className="form-group">
                     <label className="text-muted"> Email </label>
                     <input
@@ -81,11 +79,16 @@ class Signup extends Component {
 
 
     render() {
-        const { name, email, password, error, open } = this.state;
+        const { email, password, error ,redirectToReferer,loading} = this.state;
+
+        
+        if(redirectToReferer) {
+            return  < Redirect to="/" />
+        }
+
         return (
             <div className="container">
-                <h2 className="mt-5 mb-5"> Signup </h2>
-
+                <h2 className="mt-5 mb-5"> SignIn </h2>
 
                 <div className="alert alert-danger"
                     style={{ display: error ? "" : "none" }}  // "none is the key word to show the alert "
@@ -93,16 +96,16 @@ class Signup extends Component {
                     {error}
                 </div>
 
-                <div className="alert alert-info"
-                    style={{ display: open ? "" : "none" }}  // "none is the key word to show the alert "
-                >
-                    New account is successfully create.  Please Sign in.
-                 </div>
-
-                {this.signupForm(name, email,password)}
+                {loading ? <div className = "jumbotron text-center"> 
+               
+                     <h2>Loading........</h2> 
+                </div> : (
+                    ""
+                )}
+                {this.signinForm(email, password)}
             </div>
         );
     }
 }
 
-export default Signup;
+export default Signin;
