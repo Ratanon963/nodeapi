@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {signup} from '../auth/index'
+import {signup} from '../auth/'
 
 class Signup extends Component {
     constructor() {
@@ -75,6 +75,7 @@ class Signup extends Component {
                 </div>
 
                 <button onClick={this.clickSubmit} className="btn btn-raised btn-primary">Submit</button>
+                        
             </form>
         );
     }

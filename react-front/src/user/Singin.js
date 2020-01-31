@@ -33,6 +33,7 @@ class Signin extends Component {
             email,
             password
         };
+        console.log(`${process.env.REACT_APP_API_URL}/signup`)
         console.log(user);
         sigin(user)
             .then(data => {

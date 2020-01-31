@@ -1,23 +1,28 @@
+
 export const signup = (user) => {
 
-    return fetch("http://localhost:8080/signup", {
+    // `${process.env.REACT_APP_API_URL}/signup`
+
+
+    // http://localhost:8080/signup
+    return fetch("http://localhost:8080/signup", {     
         method: "POST",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
         },
-
         body: JSON.stringify(user)
-    })
-        .then(response => {
+
+    }).then(response => {
             return response.json()
-        })
-        .catch(err => console.log(err))
+        }).catch(err => console.log(err))
+      
 };
 
 
 export const sigin = (user) => {
 
+    //  http://localhost:8080/signup
     return fetch("http://localhost:8080/signin", {
         method: "POST",
         headers: {
@@ -26,11 +31,9 @@ export const sigin = (user) => {
         },
 
         body: JSON.stringify(user)
-    })
-        .then(response => {
+    }).then(response => {
             return response.json()
-        })
-        .catch(err => console.log(err))
+        }).catch(err => console.log(err))
 };
 
 
@@ -46,7 +49,7 @@ export const authetication = (jwt, next) => {  // next is call back method
 export const signout = (next) => {
     if (typeof window !== "undefined") localStorage.removeItem("jwt");
     next()
-    return fetch("http://localhost:8080/signout", {
+    return fetch(`${process.env.REACT_APP_API_URL}/signout`, {
         method: "GET"
 
     })
