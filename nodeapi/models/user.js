@@ -23,7 +23,16 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    update: Date
+    update: Date,
+    photo: {
+        data: Buffer,
+        contentType: String
+    },
+    about: {
+        type: String,
+        trim: true
+
+    }
 })
 
 
