@@ -2,10 +2,10 @@
 export const signup = (user) => {
 
     // `${process.env.REACT_APP_API_URL}/signup`
-
-
+    //`${process.envREACT_APP_API_URL}/signup`
+    
     // http://localhost:8080/signup
-    return fetch("http://localhost:8080/signup", {     
+    return fetch(`${process.env.REACT_APP_API_URL}/signup`, {     
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -20,10 +20,11 @@ export const signup = (user) => {
 };
 
 
+
 export const sigin = (user) => {
 
     //  http://localhost:8080/signup
-    return fetch("http://localhost:8080/signin", {
+    return fetch(`${process.env.REACT_APP_API_URL}/signin`, {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -51,12 +52,10 @@ export const signout = (next) => {
     next()
     return fetch(`${process.env.REACT_APP_API_URL}/signout`, {
         method: "GET"
-
     })
         .then(response => {
             console.log('signout', response)
             return response.json()
-
         })
         .catch(err => console.log(err))
 }
