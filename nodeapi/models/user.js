@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const uuidv1 = require('uuid/v1');
 const crypto = require('crypto');
 
+const { ObjectId } = mongoose.Schema; // ObjectId is the part of mongoose schema.
+
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -32,8 +34,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true
 
-    }
+    },
+    following: [{ type: ObjectId, ref: "User" }],
+    followers: [{ type: ObjectId, ref: "User" }]
 })
+    /*
+        when a single user is retrived from the backend, we want the user objet to include the names and IDs
+        ....of the users referenced in the follwing and follwers arrays.
+
+        To retrieve thses details we need to update the userById controller method to 
+        populate the returned user object with follwers and following
+
+    */
+
+
 
 
 /**
