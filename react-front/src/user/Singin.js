@@ -97,10 +97,11 @@ class Signin extends Component {
                     {error}
                 </div>
 
-                {loading ? <div className = "jumbotron text-center"> 
+                {loading ? 
+                (<div className = "jumbotron text-center"> 
                
                      <h2>Loading........</h2> 
-                </div> : (
+                </div> ): (
                     ""
                 )}
                 {this.signinForm(email, password)}

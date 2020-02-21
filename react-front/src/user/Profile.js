@@ -5,6 +5,8 @@ import { read } from "./apiUser";
 import DefaultProfile from '../images/User_Avatar.png'
 import DeleteUser from './DeleteUser';
 import FollowProfileButton from './FollowProfileButton'
+import ProfileTable from './ProfileTable'
+import {listByUser} from '../post/apiPost'
 
 class Profile extends Component {
     constructor() {
@@ -14,12 +16,13 @@ class Profile extends Component {
             user: { following: [], followers: [] },
             redirectToSignin: false,
             following: false,
-            error: ""
+            error: "",
+            posts: []
         };
     }
 
     // Check follow
-    checkFollow = user => {
+    checkFollow = user => { 
         const jwt = isAuthenticated()
         const match = user.followers.find(follower => {
             // one id has many other ids (followers) and vice versa
@@ -53,9 +56,21 @@ class Profile extends Component {
                 // Just add for Followering
                 let following = this.checkFollow(data)
                 this.setState({ user: data, following });
+                this.loadPosts(data._id)
             }
         })
     };
+
+    loadPosts = userId => {
+        const token = isAuthenticated().token;
+        listByUser(userId, token).then(data => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            this.setState({ posts: data });
+          }
+        });
+      };
 
 
     //function read ==> Id and get token
@@ -93,7 +108,7 @@ class Profile extends Component {
 
     render() {
         // destuctor   <!-- this.state.user.create -->
-        const { redirectToSignin, user } = this.state;
+        const { redirectToSignin, user , posts } = this.state;
         if (redirectToSignin) return <Redirect to="/signin" />
 
         const photoUrl =
@@ -105,7 +120,7 @@ class Profile extends Component {
             <div className="container">
                 <h2 className="mt-5 mb-5" >Profile</h2>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
 
 
                         {/* <img className="card-img-top"
@@ -129,7 +144,7 @@ class Profile extends Component {
 
                     </div>
 
-                    <div className="col-md-6">
+                    <div className="col-md-8">
                         <div className="lead mt-2">
                             <p>Hello {user.name}</p>
                             <p>Email: {user.email}</p>
@@ -140,6 +155,14 @@ class Profile extends Component {
                             isAuthenticated().user._id === user._id ? (
 
                                 <div className="d-inline-block">
+                                    <Link className="btn btn-raised btn-info mr-5"
+                                        to={`/post/create`}
+                                    >
+                                        Create Post
+                                    </Link>
+
+                                    <div className="d-inline-block">
+
                                     <Link className="btn btn-raised btn-success mr-5"
                                         to={`/user/edit/${user._id}`}
                                     >
@@ -148,6 +171,7 @@ class Profile extends Component {
                                     </Link>
 
                                     <DeleteUser userId={user._id} />
+                                    </div>
 
                                 </div>
 //  <p>{this.state.following
@@ -158,6 +182,7 @@ class Profile extends Component {
                             onButtonClick = {this.clickFollowButton}
                             />
                         }
+
                     </div>
                 </div>
                 <div className="row">
@@ -165,6 +190,11 @@ class Profile extends Component {
                         <hr />
                         <p className="lead">{user.about}</p>
                         <hr />
+                        <ProfileTable
+                        followers ={user.followers}
+                        following ={user.following}
+                        posts ={posts}
+                        />
                     </div>
                 </div>
             </div>

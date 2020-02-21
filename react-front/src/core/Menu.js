@@ -26,8 +26,6 @@ const Menu = ({ history }) => (     ///props use for access history
             </li>
 
 
-
-
             {!isAuthenticated() && (
                 <>
                     <li className="nav-item">
@@ -38,18 +36,27 @@ const Menu = ({ history }) => (     ///props use for access history
                     </li>
                 </>
             )}
-            
+
 
             {isAuthenticated() && (
                 <>
                     <li className="nav-item">
-                        <span
-                            className="nav-link"
-                            style={isActive(history, "/signup"),
-                                { cursor: "pointer", color: "#fff" }}
-                            onClick={() => signout(() => history.push('/'))}
-                        >Sign Out
-                        </span>
+
+                        <Link
+                            to={`/findpeople`}
+                            style={isActive(history, `/findpeople`)}
+                            className="nav-link">
+                            Find People
+                        </Link>
+                    </li>
+
+                    <li className="nav-item">
+                        <Link
+                            to={`/post/create`}
+                            style={isActive(history, `/post/create`)}
+                            className="nav-link">
+                            Create Post
+                        </Link>
                     </li>
 
                     <li className="nav-item">
@@ -61,10 +68,20 @@ const Menu = ({ history }) => (     ///props use for access history
                                     `/user/${isAuthenticated().user._id}`
                                 )} className="nav-link"
                         >
-
                             {`${isAuthenticated().user.name}'s profile`}
                         </Link>
                     </li>
+
+                    <li className="nav-item">
+                        <span
+                            className="nav-link"
+                            style={isActive(history, "/signup"),
+                                { cursor: "pointer", color: "#fff" }}
+                            onClick={() => signout(() => history.push('/'))}
+                        >Sign Out
+                        </span>
+                    </li>
+
                 </>
             )}
 
