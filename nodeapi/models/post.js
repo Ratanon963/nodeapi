@@ -19,11 +19,12 @@ const postSchema = new mongoose.Schema({
     postedBy: {
         type: ObjectId,
         ref: 'User'
-    },
+    }, 
     created: {
         type: Date,
         default: Date.now
-    }
+    },
+    update: Date,
 
 
 });
